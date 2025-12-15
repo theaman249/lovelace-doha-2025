@@ -9,6 +9,7 @@ import { Button, ButtonText } from '@/components/ui/button';
 import { FormControl } from '@/components/ui/form-control';
 import { Pressable } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
+import { Image } from 'react-native';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -57,6 +58,11 @@ export default function LoginScreen() {
     <Box className="flex-1 justify-center items-center p-6 bg-background-0">
       <VStack space="xl" className="w-full max-w-md">
         <VStack space="md" className="items-center mb-8">
+          <Image
+            source={require('../assets/images/E4I.png')}
+            style={{ width: 150, height: 150, marginBottom: 16 }}
+            resizeMode="contain"
+          />
           <Heading size="3xl" className="text-typography-900">
             Welcome Back
           </Heading>
