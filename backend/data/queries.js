@@ -4,14 +4,12 @@ const dbName = "education_for_integrity";
 const subject_points = 5;
 const assessment_points = 3;
 const unit_points = 2;
-   
 
-
-async function getUser(email){
-    const query = 'SELECT * FROM users WHERE email = $1';
+async function getUser(alias){
+    const query = 'SELECT * FROM users WHERE alias = $1';
 
     try {
-        const { rows } = await db.query(query, [email]);
+        const { rows } = await db.query(query, [alias]);
 
         return rows[0]; // return single user
     } catch (error) {

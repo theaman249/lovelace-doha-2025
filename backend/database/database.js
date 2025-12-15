@@ -53,6 +53,7 @@ require('dotenv').config({
                 name VARCHAR(100) NOT NULL,
                 surname VARCHAR(100) NOT NULL,
                 alias VARCHAR(100),
+                password VARCHAR(255) NOT NULL,
                 kt_balance DOUBLE PRECISION DEFAULT 0
             );
 

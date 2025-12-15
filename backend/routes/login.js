@@ -2,16 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data/queries'); 
 
-// router.post('/', (req, res) => {
-//     res.status(200).json({
-//         success: true,
-//         message: 'Login successful'
-//     });
-// });
-
-// module.exports = router;
-
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
       const { email, password } = req.body;
 
@@ -46,5 +37,7 @@ router.post('/login', async (req, res) => {
         console.log(error);
     }
 });
+
+module.exports = router;
 
 

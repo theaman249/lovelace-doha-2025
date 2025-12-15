@@ -1,18 +1,21 @@
-const db = require('../commons/conn'); 
+const express = require('express');
+const router = express.Router();
 const data = require('../data/queries'); 
+const create = require('../data/create');
+const bcrypt = require('bcrypt');
 
 
-router.post('/register', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const { name, surname, email, password } = req.body;
+    const { name, surname, alias, password } = req.body;
 
-    if (!email || !password || !name || !surname) {
+    if (!alias || !password || !name || !surname) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
     // 3. Check if user already exists
     // Re-using existing data.getUser function
-    const existingUser = await data.getUser(email);
+    const existingUser = await data.getUser(alias);
     if (existingUser) {
       return res.status(409).json({ error: 'User already exists' });
     }
@@ -22,23 +25,11 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // 5. Create the user in the database
-    const newUser = await data.createUser(name, surname, email, hashedPassword);
-
-    // 6. Generate JWT (Auto-login)
-    // Using the same secret and expiry as your login route
-    const token = jwt.sign(
-      { userId: newUser.id, email: newUser.email }, 
-      process.env.JWT_SECRET, 
-      { expiresIn: '1h' }
-    );
+    const newUser = await create.createUser(name, surname, generateAlias(name), hashedPassword);
 
     // 7. Send success response
     res.status(201).json({
-      id: newUser.id,
-      name: newUser.name,
-      surname: newUser.surname,
-      email: newUser.email,
-      jwt_token: token
+      message: newUser.message,
     });
 
   } catch (error) {
@@ -46,3 +37,12 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' });
   }
 });
+
+// WARNING: This solution doesn't scale. Please use a more robust method in production.
+function generateAlias(name){
+  const rand = Math.floor(Math.random() * 90) + 10;
+
+  return name + rand;
+}
+
+module.exports = router;
