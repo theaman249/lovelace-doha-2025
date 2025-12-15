@@ -21,7 +21,10 @@ export default function RootLayout() {
   return (
     <GluestackUIProvider mode="dark">
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{ animationEnabled: true }}>
+        <Stack 
+          screenOptions={{ animationEnabled: true }}
+          initialRouteName={!isLoggedIn ? 'login' : '(tabs)'}
+        >
           {!isLoggedIn ? (
             <>
               <Stack.Screen 
