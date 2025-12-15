@@ -57,62 +57,63 @@ async function healthCheck() {
 
 //getpoints (topic/unit/assessment name, assessment identifier, user)
 
-async function getPoints(contextName, contextId, userID) {
+async function getPoints(contextName, userId) {
     const query = `
         SELECT points 
-        FROM xxx
-        WHERE user_id = $1 AND context_name = $2 AND context_id = $3
+        FROM ${contextName}
+        WHERE user_id = $1
     `;
 
     try {
-        const { rows } = await db.query(query, [userId, contextName, contextId]);
+        const { rows } = await db.query(query, [userId]);
         
         if (rows.length > 0) {
             return rows[0].points;
         }
-        return 0; // Default to 0 if they haven't started this assessment yet
+
+        return 0;
     } catch (error) {
         console.error('Error fetching points:', error);
         throw error;
     }
 }
 
-async function addPoints(contextName, contextId, userId) {
+async function addPoints(contextName, userId) {
     let pointsToAdd = 0;
 
-    if (indexOf(contextName, "unit") > -1) {
+    // check if user already has points for this assessment/unit/topic 
+    const userHasPoints = await getPoints(contextName, userId);
+
+    if (userHasPoints > 0) {
+        return {
+            points: userHasPoints,
+            status: 'has points'
+        };
+    }
+
+    if (contextName.indexOf("unit") > -1) {
         pointsToAdd = unit_points;
-    } else if (indexOf(contextName, "assessment") > -1) {
+    } else if (contextName.indexOf("quiz") > -1 || contextName.indexOf("matchab") > -1 || contextName.indexOf("draganddrop") > -1) {
         pointsToAdd = assessment_points;
     } else {
         pointsToAdd = subject_points;
     }
+
+    console.log(`Adding ${pointsToAdd} points for user ${userId} in context ${contextName}`);
     
     const insertQuery = `
-        INSERT INTO xxx (user_id, context_name, context_id, points)
-        VALUES ($1, $2, $3, $4)
-        ON CONFLICT (user_id, context_name, context_id)
-        DO NOTHING
-        RETURNING points;
+        INSERT INTO ${contextName} (user_id, points)
+        VALUES ($1, $2)
     `;
 
+    console.log('Insert Query:', insertQuery);
+
     try {
-        const { rows } = await db.query(insertQuery, [userId, contextName, contextId, pointsToAdd]);
+        await db.query(insertQuery, [userId, pointsToAdd]);
 
-        if (rows.length > 0) {
-            return { 
-                points: rows[0].points, 
-                status: 'created' 
-            };
-        }
-
-        // Case B: The Insert was ignored (User already had a score)
-        // fetch the existing score
-        const existingScore = await getPoints(contextName, contextId, userId);
-        
-        return { 
-            points: existingScore, 
-            status: 'ignored'
+        return {
+            points: pointsToAdd,
+            status: 'success'
         };
 
     } catch (error) {
