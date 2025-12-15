@@ -21,45 +21,32 @@ export default function RootLayout() {
   return (
     <GluestackUIProvider mode="dark">
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack 
-          screenOptions={{ animationEnabled: true }}
-          initialRouteName={!isLoggedIn ? 'login' : '(tabs)'}
-        >
-          {!isLoggedIn ? (
-            <>
-              <Stack.Screen 
-                name="login" 
-                options={{ 
-                  headerShown: false,
-                  animationTypeForReplace: isLoading ? 'none' : 'slide_from_right',
-                }} 
-              />
-              <Stack.Screen 
-                name="register" 
-                options={{ 
-                  headerShown: false,
-                  animationTypeForReplace: isLoading ? 'none' : 'slide_from_right',
-                }} 
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen 
-                name="(tabs)" 
-                options={{ 
-                  headerShown: false,
-                  animationTypeForReplace: 'fade',
-                }} 
-              />
-              <Stack.Screen 
-                name="modal" 
-                options={{ 
-                  presentation: 'modal', 
-                  title: 'Modal',
-                }} 
-              />
-            </>
-          )}
+        <Stack initialRouteName={!isLoggedIn ? 'login' : '(tabs)'}>
+          <Stack.Screen
+            name="login"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="register"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="modal"
+            options={{
+              presentation: 'modal',
+              title: 'Modal',
+            }}
+          />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
