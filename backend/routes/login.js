@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data/queries'); 
+const bcrypt = require('bcrypt');
+
 
 router.post('/', async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { alias, password } = req.body;
 
-      const user = await data.getUser(email);
+      const user = await data.getUser(alias);
 
       //console.log(user);
 
       if (!user) {
-        console.log('User not found:', email);
+        console.log('User not found:', alias);
         return res.status(401).json({ error: 'Authentication failed: User not found' });
       }
 
@@ -22,15 +24,11 @@ router.post('/', async (req, res) => {
         return res.status(401).json({ error: 'Authentication failed: Incorrect Password' });
       }
       
-      const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, {
-      expiresIn: '1h',});
-
       res.status(200).json({ 
         id: user.id,
         name: user.name,
         surname: user.surname,
-        email: user.email,
-        jwt_token: token
+        alias: user.alias,
       });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
