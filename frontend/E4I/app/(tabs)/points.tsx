@@ -101,14 +101,14 @@ export default function PointsScreen() {
           {/* Header with Total Points (Clickable) */}
           <HStack className="justify-between items-center">
             <Heading size="2xl" className="text-typography-900">
-              Scoreboard
+              Points overview
             </Heading>
             
             <Pressable onPress={() => setShowRedeemModal(true)}>
               <Box className="px-6 py-4 bg-primary-500 rounded-xl">
                 <VStack space="xs" className="items-center">
                   <HStack space="xs" className="items-center">
-                    <Text className="text-typography-950 text-sm font-medium">🏆 Total</Text>
+                    <Text className="text-typography-950 text-sm font-medium"> Total</Text>
                   </HStack>
                   <Heading size="3xl" className="text-typography-950">
                     {totalPoints}

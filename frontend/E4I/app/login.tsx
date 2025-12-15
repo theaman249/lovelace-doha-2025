@@ -14,16 +14,40 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { login } = useAuth();
 
+  const validateInputs = () => {
+    if (!email || !password) {
+      setError('Both fields are required.');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return false;
+    }
+
+    if (password.length < 8){
+      setError('Password must be at least 8 characters long.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
   const handleLogin = async () => {
+    if (!validateInputs()) return;
+
     try {
       setLoading(true);
       await login(email, password);
       // Navigation handled by AuthContext
     } catch (error) {
       console.error('Login failed:', error);
-      // TODO: Show error message to user
+      setError('Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -40,6 +64,10 @@ export default function LoginScreen() {
             Sign in to continue your learning journey
           </Text>
         </VStack>
+
+        {error ? (
+          <Text className="text-red-500 text-center mb-4">{error}</Text>
+        ) : null}
 
         <VStack space="lg">
           <FormControl>
