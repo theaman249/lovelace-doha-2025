@@ -3,6 +3,9 @@ const router = express.Router();
 const data = require('../data/queries'); 
 const bcrypt = require('bcrypt');
 
+const USER_NOT_FOUND = 'user not found';
+const INVALID_PASSWORD = 'invalid password';
+
 
 router.post('/', async (req, res) => {
     try {
@@ -14,14 +17,13 @@ router.post('/', async (req, res) => {
 
       if (!user) {
         console.log('User not found:', alias);
-        return res.status(401).json({ error: 'Authentication failed: User not found' });
+        return res.status(401).json({ error: USER_NOT_FOUND });
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       
       if (!passwordMatch) {
-        console.log('Incorrect password:', password);
-        return res.status(401).json({ error: 'Authentication failed: Incorrect Password' });
+        return res.status(401).json({ error: INVALID_PASSWORD });
       }
       
       res.status(200).json({ 
