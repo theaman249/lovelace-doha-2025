@@ -1,55 +1,45 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 import { useEffect, useState } from 'react';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useAuth } from '@/hooks/use-auth';
-
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import '@/global.css';
+import { useRouter, useSegments } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Slot } from 'expo-router';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const { isLoggedIn, isLoading } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const segments = useSegments();
+  const router = useRouter();
 
-  if (isLoading) {
-    return null;
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  const checkAuthStatus = async () => {
+    try {
+      const authStatus = await AsyncStorage.getItem('isLoggedIn');
+      setIsLoggedIn(authStatus === 'true');
+    } catch (error) {
+      console.error('Error checking auth status:', error);
+      setIsLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn === null) return; // Still loading
+
+    const inAuthGroup = segments[0] === 'login' || segments[0] === 'register';
+
+    if (!isLoggedIn && !inAuthGroup) {
+      // Redirect to login if not authenticated
+      router.replace('/login');
+    } else if (isLoggedIn && inAuthGroup) {
+      // Redirect to main app if authenticated
+      router.replace('/(tabs)');
+    }
+  }, [isLoggedIn, segments]);
+
+  // Show nothing while checking authentication
+  if (isLoggedIn === null) {
+    return null; // Or a loading screen
   }
 
-  return (
-    <GluestackUIProvider mode="dark">
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack initialRouteName={!isLoggedIn ? 'login' : '(tabs)'}>
-          <Stack.Screen
-            name="login"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="register"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="modal"
-            options={{
-              presentation: 'modal',
-              title: 'Modal',
-            }}
-          />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </GluestackUIProvider>
-  );
+  return <Slot />;
 }
