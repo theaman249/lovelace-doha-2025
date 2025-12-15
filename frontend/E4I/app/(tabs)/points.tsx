@@ -25,6 +25,7 @@ type Module = {
   name: string;
   totalPoints: number;
   maxPoints: number;
+  color: string;
   units: { id: number; name: string; points: number; maxPoints: number }[];
   activities: { name: string; points: number; maxPoints: number }[];
 };
@@ -33,45 +34,83 @@ type Module = {
 const mockModules: Module[] = [
   {
     id: 1,
-    name: 'Introduction to Biology',
-    totalPoints: 450,
-    maxPoints: 500,
+    name: 'Introduction to Corruption',
+    totalPoints: 15,
+    maxPoints: 20,
+    color: '#dd0979',
     units: [
-      { id: 1, name: 'Cell Structure', points: 95, maxPoints: 100 },
-      { id: 2, name: 'DNA & RNA', points: 88, maxPoints: 100 },
-      { id: 3, name: 'Photosynthesis', points: 92, maxPoints: 100 }
+      { id: 1, name: 'Unit 1', points: 5, maxPoints: 5 },
+      { id: 2, name: 'Unit 2', points: 5, maxPoints: 5 },
+      { id: 3, name: 'Unit 3', points: 5, maxPoints: 10 }
     ],
     activities: [
-      { name: 'Quiz 1: Cell Basics', points: 85, maxPoints: 100 },
-      { name: 'Quiz 2: Organelles', points: 90, maxPoints: 100 }
+      { name: 'Activity 1', points: 10, maxPoints: 10 },
+      { name: 'Activity 2', points: 5, maxPoints: 10 }
     ]
   },
   {
     id: 2,
-    name: 'Advanced Chemistry',
-    totalPoints: 380,
-    maxPoints: 450,
+    name: 'UNODC',
+    totalPoints: 12,
+    maxPoints: 15,
+    color: '#004c84',
     units: [
-      { id: 1, name: 'Chemical Bonds', points: 88, maxPoints: 100 },
-      { id: 2, name: 'Reactions', points: 92, maxPoints: 100 }
+      { id: 1, name: 'Unit 1', points: 4, maxPoints: 5 },
+      { id: 2, name: 'Unit 2', points: 4, maxPoints: 5 },
+      { id: 3, name: 'Unit 3', points: 4, maxPoints: 5 }
     ],
     activities: [
-      { name: 'Lab Report 1', points: 95, maxPoints: 100 },
-      { name: 'Multiple Choice Test', points: 105, maxPoints: 150 }
+      { name: 'Activity 1', points: 8, maxPoints: 10 },
+      { name: 'Activity 2', points: 2, maxPoints: 10 }
     ]
   },
   {
     id: 3,
-    name: 'Physics Fundamentals',
-    totalPoints: 290,
-    maxPoints: 400,
+    name: 'Public Sector Corruption',
+    totalPoints: 10,
+    maxPoints: 20,
+    color: '#ec6411',
     units: [
-      { id: 1, name: 'Mechanics', points: 85, maxPoints: 100 },
-      { id: 2, name: 'Thermodynamics', points: 78, maxPoints: 100 }
+      { id: 1, name: 'Unit 1', points: 2, maxPoints: 5 },
+      { id: 2, name: 'Unit 2', points: 2, maxPoints: 5 },
+      { id: 3, name: 'Unit 3', points: 2, maxPoints: 5 },
+      { id: 4, name: 'Unit 4', points: 2, maxPoints: 5 }
     ],
     activities: [
-      { name: 'Problem Set 1', points: 82, maxPoints: 100 },
-      { name: 'Conceptual Quiz', points: 45, maxPoints: 100 }
+      { name: 'Activity 1', points: 5, maxPoints: 10 },
+      { name: 'Activity 2', points: 5, maxPoints: 10 }
+    ],
+  },
+  {
+    id: 4,
+    name: 'Corruption and Gender',
+    totalPoints: 5,
+    maxPoints: 15,
+    color: '#289438',
+    units: [
+      { id: 1, name: 'Unit 1', points: 2, maxPoints: 5 },
+      { id: 2, name: 'Unit 2', points: 2, maxPoints: 5 },
+      { id: 3, name: 'Unit 3', points: 1, maxPoints: 5 }
+    ],
+    activities: [
+      { name: 'Activity 1', points: 3, maxPoints: 10 },
+      { name: 'Activity 2', points: 7, maxPoints: 10 }
+    ]
+  },
+  {
+    id: 5,
+    name: 'Citizen Participation in Anti-Corruption',
+    totalPoints: 0,
+    maxPoints: 15,
+    color: '#e6331d',
+    units: [
+      { id: 1, name: 'Unit 1', points: 0, maxPoints: 5 },
+      { id: 2, name: 'Unit 2', points: 0, maxPoints: 5 },
+      { id: 3, name: 'Unit 3', points: 0, maxPoints: 5 }
+    ],
+    activities: [
+      { name: 'Activity 1', points: 0, maxPoints: 10 },
+      { name: 'Activity 2', points: 0, maxPoints: 10 }
     ]
   }
 ];
