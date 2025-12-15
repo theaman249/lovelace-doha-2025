@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
+
 
 const app = express();
 const PORT = 3000;
