@@ -55,7 +55,7 @@ export default function RegisterScreen() {
     try {
       setLoading(true);
       const name = `${fname} ${lname}`;
-      await register(name, email, password);
+      await register(fname, lname, password);
       // Navigation handled by AuthContext
     } catch (error) {
       console.error('Registration failed:', error);

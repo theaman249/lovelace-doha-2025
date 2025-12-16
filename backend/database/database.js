@@ -23,16 +23,18 @@ require('dotenv').config({
 
         // Check if the database exists
         const result = await client.query(
-            `SELECT datname FROM pg_database WHERE datname = $1`, [dbName]
+            `DROP DATABASE IF EXISTS education_for_entegrity;`
         );
 
-        if (result.rows.length > 0) {
-            console.log(`Database "${dbName}" already exists.`);
-        } 
-        else {
-            console.log(`Database "${dbName}" does not exist. Creating...`);
-            await client.query(`CREATE DATABASE ${dbName}`);
-        }
+        // if (result.rows.length > 0) {
+        //     console.log(`Database "${dbName}" already exists.`);
+        // } 
+        // else {
+        //     console.log(`Database "${dbName}" does not exist. Creating...`);
+        //     await client.query(`CREATE DATABASE ${dbName}`);
+        // }
+
+        await client.query(`CREATE DATABASE ${dbName}`);
         
         await client.end(); 
 

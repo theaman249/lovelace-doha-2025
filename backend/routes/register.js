@@ -7,18 +7,18 @@ const bcrypt = require('bcrypt');
 
 router.post('/', async (req, res) => {
   try {
-    const { name, surname, alias, password } = req.body;
+    const { name, surname, password } = req.body;
 
-    if (!alias || !password || !name || !surname) {
+    if (!password || !name || !surname) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
     // 3. Check if user already exists
     // Re-using existing data.getUser function
-    const existingUser = await data.getUser(alias);
-    if (existingUser) {
-      return res.status(409).json({ error: 'User already exists' });
-    }
+    // const existingUser = await data.getUser(alias);
+    // if (existingUser) {
+    //   return res.status(409).json({ error: 'User already exists' });
+    // }
 
     // 4. Hash 
     const saltRounds = 10;
@@ -26,6 +26,7 @@ router.post('/', async (req, res) => {
 
     // 5. Create the user in the database
     const newUser = await create.createUser(name, surname, generateAlias(name), hashedPassword);
+    console.log('New user created:', newUser);
 
     // 7. Send success response
     res.status(201).json({

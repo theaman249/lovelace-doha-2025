@@ -3,10 +3,13 @@ const express = require('express');
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const pointsRoute = require('./routes/points');
-
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
+app.use(cors());
+
+
 app.use(express.json());
 
 app.use('/login', loginRoute);
