@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const inAuthGroup = segments[0] === '(tabs)';
     const inCoursePages = segments[0] === 'course-detail' || segments[0] === 'video-player' || segments[0] === 'activity' || segments[0] === 'pdf-viewer';
+    const inRedeemPoints = segments[0] === 'redeem-points';
 
     if (!isAuthenticated && inAuthGroup) {
       // User is not authenticated but trying to access protected routes
