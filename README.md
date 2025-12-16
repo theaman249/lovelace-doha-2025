@@ -4,7 +4,7 @@
 
 ## 🌟 Overview
 
-**Education4Integration** is a pioneering mobile application designed to educate young people about corruption, ethical decision-making, and the critical role of organizations like the **United Nations Office on Drugs and Crime (UNODC)**.
+**Education4Integrity** is a pioneering mobile application designed to educate young people about corruption, ethical decision-making, and the critical role of organizations like the **United Nations Office on Drugs and Crime (UNODC)**.
 
 We recognized that traditional methods often fail to engage youth on these complex topics. Our solution utilizes **adaptive AI tutoring** to create personalized, interactive learning pathways, focusing on real-world scenarios and gamified challenges.
 
@@ -34,7 +34,7 @@ The project is divided into two main components:
 
 ## 🚀 Getting Started
 
-Follow these instructions to set up and run the **Education4Integration** project locally.
+Follow these instructions to set up and run the **Education4Integrity** project locally.
 
 ### Prerequisites
 
