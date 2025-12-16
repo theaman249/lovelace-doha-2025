@@ -19,7 +19,7 @@ import { Icon, CloseIcon } from '@/components/ui/icon';
 import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Progress, ProgressFilledTrack } from '@/components/ui/progress';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 type Module = {
   id: number;
@@ -120,6 +120,7 @@ export default function PointsScreen() {
   const [showRedeemModal, setShowRedeemModal] = useState(false);
   const [selectedModule, setSelectedModule] = useState<Module | null>(null);
   const [redeemAmount, setRedeemAmount] = useState('');
+  const router = useRouter();
 
   const totalPoints = mockModules.reduce((sum, mod) => sum + mod.totalPoints, 0);
   const conversionRate = 100; // 100 points = 1 KT
@@ -144,7 +145,7 @@ export default function PointsScreen() {
               Points overview
             </Heading>
             
-            <Pressable onPress={() => router.push('/redeem-points')}>
+            <Pressable onPress={() => router.push('../redeem-points')}>
               <Box className="px-6 py-4 bg-primary-500 rounded-xl">
                 <VStack space="xs" className="items-center">
                   <HStack space="xs" className="items-center">
