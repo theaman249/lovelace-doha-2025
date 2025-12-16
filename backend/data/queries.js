@@ -1,6 +1,8 @@
 const db = require('../commons/conn'); 
 const dbName = "education_for_integrity";
 
+const USER_NOT_FOUND = 'user not found';
+
 const subject_points = 5;
 const assessment_points = 3;
 const unit_points = 2;
@@ -78,6 +80,44 @@ async function getPoints(contextName, userId) {
     }
 }
 
+async function getUserPoints(alias) {
+
+    const user = await getUser(alias);
+
+    console.log('Fetched user:', user);
+    console.log('Alias provided:', alias);
+    
+    if (!user) {
+        return{
+            timestamp: new Date(),
+            status: "not found",
+            points: 0
+        }
+    }
+
+    const arr_contexts = [
+        "introduction_to_corruption_unit1_points",
+        "introduction_to_corruption_quiz1_points",
+        "introduction_to_corruption_matchab_points",
+        "introduction_to_corruption_unit2_points",
+        "introduction_to_corruption_unit3_points"
+    ];
+
+    let points = 0;
+
+    for(let i=0; i<arr_contexts.length; i++){
+        const context = arr_contexts[i];
+        points = points + await getPoints(context, user.id);
+    }
+
+    return {
+        timestamp: new Date(),
+        status: 'success',
+        points: points
+    };
+
+}
+
 async function addPoints(contextName, userId) {
     let pointsToAdd = 0;
 
@@ -128,5 +168,6 @@ module.exports = {
     getAllUsers,
     healthCheck,
     getPoints,
-    addPoints
+    addPoints,
+    getUserPoints
 };
