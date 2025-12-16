@@ -19,7 +19,7 @@ const courses = [
     units: 3,
     completedUnits: 3,
     instructor: 'Det. Gracie Lion',
-    guideImage: 'https://drive.google.com/uc?export=view&id=1LnSmzAm6ny1MpIQHY3S8kR25lTpfWMiQ ',
+    guideImage: 'https://drive.google.com/uc?export=view&id=1LnSmzAm6ny1MpIQHY3S8kR25lTpfWMiQ',
     color: '#dd0979'
   },
   {
