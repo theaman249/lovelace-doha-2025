@@ -145,7 +145,7 @@ export default function PointsScreen() {
               Points overview
             </Heading>
             
-            <Pressable onPress={() => router.push('../redeem-points')}>
+            <Pressable onPress={() => router.push({ pathname: '/redeem-points' })}>
               <Box className="px-6 py-4 bg-primary-500 rounded-xl">
                 <VStack space="xs" className="items-center">
                   <HStack space="xs" className="items-center">

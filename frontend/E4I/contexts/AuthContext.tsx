@@ -26,11 +26,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === '(tabs)';
+    const inRedeemPoints = segments[0] === 'redeem-points';
 
     if (!isAuthenticated && inAuthGroup) {
       // User is not authenticated but trying to access protected routes
       router.replace('/login');
-    } else if (isAuthenticated && !inAuthGroup) {
+    } else if (isAuthenticated && !inAuthGroup && !inRedeemPoints) {
       // User is authenticated but on auth screen
       router.replace('/(tabs)/courses');
     }
