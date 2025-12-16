@@ -10,6 +10,9 @@ import { Modal, ModalBackdrop, ModalContent, ModalHeader, ModalBody, ModalFooter
 import { Icon } from '@/components/ui/icon';
 import { X, AlertCircle, CheckCircle } from 'lucide-react-native';
 import { ScrollView } from 'react-native';
+import { Image } from 'react-native';
+import { Pressable } from 'react-native';
+import { router } from 'expo-router';
 
 export default function RedeemPointsScreen() {
   const [points, setPoints] = useState(1000);
@@ -44,6 +47,11 @@ export default function RedeemPointsScreen() {
     <ScrollView className="flex-1 bg-background-0">
       <Box className="flex-1 justify-center items-center p-6">
         <VStack space="xl" className="w-full max-w-md">
+          {/* Back Button */}
+          <Pressable onPress={() => router.push('/(tabs)/points')} className="self-start mb-4">
+            <Text className="text-primary-600 font-semibold">← Back to Points</Text>
+          </Pressable>
+
           {/* Header */}
           <VStack space="sm" className="items-center">
             <Heading size="3xl" className="text-typography-900 text-center">
@@ -66,7 +74,11 @@ export default function RedeemPointsScreen() {
               <HStack className="justify-between items-center">
                 <Text className="text-typography-700 font-medium">Maximum KT</Text>
                 <HStack space="xs" className="items-center">
-                  <Text className="text-2xl">🪙</Text>
+                  <Image
+                      source={require('../assets/images/bulb.png')}
+                      style={{ width: 24, height: 24 }}
+                      resizeMode="contain"
+                    />
                   <Heading size="2xl" className="text-primary-600">
                     {maxKT}
                   </Heading>
@@ -120,7 +132,11 @@ export default function RedeemPointsScreen() {
                     You will receive
                   </Text>
                   <HStack className="justify-center items-center" space="sm">
-                    <Text className="text-3xl">🪙</Text>
+                    <Image
+                      source={require('../assets/images/bulb.png')}
+                      style={{ width: 24, height: 24 }}
+                      resizeMode="contain"
+                    />
                     <Heading size="3xl" className="text-success-600">
                       {ktAmount} KT
                     </Heading>
@@ -172,7 +188,11 @@ export default function RedeemPointsScreen() {
                   <HStack className="justify-between items-center">
                     <Text className="text-typography-600">KT to Receive</Text>
                     <HStack space="xs" className="items-center">
-                      <Text className="text-xl">🪙</Text>
+                      <Image
+                        source={require('../assets/images/bulb.png')}
+                        style={{ width: 24, height: 24 }}
+                        resizeMode="contain"
+                      />
                       <Text className="text-primary-600 font-bold text-lg">
                         {ktAmount}
                       </Text>
