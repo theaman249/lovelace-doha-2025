@@ -1,4 +1,4 @@
-# 🎓 Education4Integration: AI-Powered Integrity Education
+# 🎓 Education4Integrity: AI-Powered Integrity Education
 
 **Team Lovelace | Coding4Integrity Hackathon Entry**
 
