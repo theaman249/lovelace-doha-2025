@@ -83,9 +83,6 @@ async function getPoints(contextName, userId) {
 async function getUserPoints(alias) {
 
     const user = await getUser(alias);
-
-    console.log('Fetched user:', user);
-    console.log('Alias provided:', alias);
     
     if (!user) {
         return{

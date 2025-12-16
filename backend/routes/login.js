@@ -31,6 +31,8 @@ router.post('/', async (req, res) => {
         name: user.name,
         surname: user.surname,
         alias: user.alias,
+        kt_balance: user.kt_balance,
+        points: (await data.getUserPoints(alias)).points
       });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
