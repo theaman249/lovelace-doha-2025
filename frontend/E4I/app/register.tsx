@@ -11,7 +11,8 @@ import { Pressable } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function RegisterScreen() {
-  const [name, setName] = useState('');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,7 +21,7 @@ export default function RegisterScreen() {
   const { register } = useAuth();
 
   const validateInputs = () => {
-    if (!name || !email || !password || !confirmPassword) {
+    if (!fname || !lname || !email || !password || !confirmPassword) {
       setError('All fields are required.');
       return false;
     }
@@ -53,6 +54,7 @@ export default function RegisterScreen() {
 
     try {
       setLoading(true);
+      const name = `${fname} ${lname}`;
       await register(name, email, password);
       // Navigation handled by AuthContext
     } catch (error) {
@@ -83,9 +85,19 @@ export default function RegisterScreen() {
           <FormControl>
             <Input>
               <InputField
-                placeholder="Full Name"
-                value={name}
-                onChangeText={setName}
+                placeholder="First Name"
+                value={fname}
+                onChangeText={setFname}
+              />
+            </Input>
+          </FormControl>
+
+          <FormControl>
+            <Input>
+              <InputField
+                placeholder="Last Name"
+                value={lname}
+                onChangeText={setLname}
               />
             </Input>
           </FormControl>
