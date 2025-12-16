@@ -120,9 +120,11 @@ export default function PointsScreen() {
   const [showRedeemModal, setShowRedeemModal] = useState(false);
   const [selectedModule, setSelectedModule] = useState<Module | null>(null);
   const [redeemAmount, setRedeemAmount] = useState('');
+  const [totalPoints, setTotalPoints] = useState(
+    mockModules.reduce((sum, mod) => sum + mod.totalPoints, 0)
+  );
   const router = useRouter();
 
-  const totalPoints = mockModules.reduce((sum, mod) => sum + mod.totalPoints, 0);
   const conversionRate = 100; // 100 points = 1 KT
   const availableKT = Math.floor(totalPoints / conversionRate);
 
@@ -144,12 +146,18 @@ export default function PointsScreen() {
             <Heading size="2xl" className="text-typography-900">
               Points overview
             </Heading>
-            
-            <Pressable onPress={() => router.push({ pathname: '/redeem-points' })}>
+
+            <Pressable
+              onPress={() =>
+                router.push({ pathname: '/redeem-points', params: { totalPoints } })
+              }
+            >
               <Box className="px-6 py-4 bg-primary-500 rounded-xl">
                 <VStack space="xs" className="items-center">
                   <HStack space="xs" className="items-center">
-                    <Text className="text-typography-950 text-sm font-medium"> Total</Text>
+                    <Text className="text-typography-950 text-sm font-medium">
+                      Total
+                    </Text>
                   </HStack>
                   <Heading size="3xl" className="text-typography-950">
                     {totalPoints}

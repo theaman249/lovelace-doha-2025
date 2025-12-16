@@ -12,10 +12,11 @@ import { X, AlertCircle, CheckCircle } from 'lucide-react-native';
 import { ScrollView } from 'react-native';
 import { Image } from 'react-native';
 import { Pressable } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 export default function RedeemPointsScreen() {
-  const [points, setPoints] = useState(1000);
+  const { totalPoints } = useLocalSearchParams();
+  const [points, setPoints] = useState(parseInt(totalPoints) || 0);
   const [pointsToRedeem, setPointsToRedeem] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
