@@ -6,9 +6,8 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Input, InputField } from '@/components/ui/input';
-import { Modal, ModalBackdrop, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton } from '@/components/ui/modal';
 import { Icon } from '@/components/ui/icon';
-import { X, AlertCircle, CheckCircle } from 'lucide-react-native';
+import { AlertCircle, CheckCircle } from 'lucide-react-native';
 import { ScrollView } from 'react-native';
 import { Image } from 'react-native';
 import { Pressable } from 'react-native';
@@ -16,9 +15,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 export default function RedeemPointsScreen() {
   const { totalPoints } = useLocalSearchParams();
-  const [points, setPoints] = useState(parseInt(totalPoints) || 0);
+  const [points, setPoints] = useState(parseInt(Array.isArray(totalPoints) ? totalPoints[0] : totalPoints) || 0);
   const [pointsToRedeem, setPointsToRedeem] = useState('');
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const conversionRate = 20; // 20 points = 1 KT
@@ -29,19 +27,13 @@ export default function RedeemPointsScreen() {
 
   const handleRedeemClick = () => {
     if (isValidAmount) {
-      setShowConfirmModal(true);
+      const updatedPoints = points - enteredPoints;
+      setPoints(updatedPoints);
+      setPointsToRedeem('');
+
+      // Update totalPoints state in the points page
+      router.replace({ pathname: '/(tabs)/points', params: { totalPoints: updatedPoints } });
     }
-  };
-
-  const handleConfirmRedeem = () => {
-    setPoints(points - enteredPoints);
-    setShowConfirmModal(false);
-    setShowSuccessModal(true);
-    setPointsToRedeem('');
-  };
-
-  const handleCancelRedeem = () => {
-    setShowConfirmModal(false);
   };
 
   return (
@@ -162,83 +154,8 @@ export default function RedeemPointsScreen() {
         </VStack>
       </Box>
 
-      {/* Confirmation Modal */}
-      <Modal isOpen={showConfirmModal} onClose={handleCancelRedeem} size="md">
-        <ModalBackdrop />
-        <ModalContent>
-          <ModalHeader>
-            <Heading size="xl">Confirm Redemption</Heading>
-            <ModalCloseButton>
-              <Icon as={X} />
-            </ModalCloseButton>
-          </ModalHeader>
-          <ModalBody>
-            <VStack space="lg">
-              <Text className="text-typography-700 text-center">
-                Are you sure you want to redeem these points?
-              </Text>
-              
-              <Box className="p-4 bg-background-50 rounded-lg border border-outline-200">
-                <VStack space="sm">
-                  <HStack className="justify-between items-center">
-                    <Text className="text-typography-600">Points to Redeem</Text>
-                    <Text className="text-typography-900 font-bold text-lg">
-                      {enteredPoints}
-                    </Text>
-                  </HStack>
-                  <HStack className="justify-between items-center">
-                    <Text className="text-typography-600">KT to Receive</Text>
-                    <HStack space="xs" className="items-center">
-                      <Image
-                        source={require('../assets/images/bulb.png')}
-                        style={{ width: 24, height: 24 }}
-                        resizeMode="contain"
-                      />
-                      <Text className="text-primary-600 font-bold text-lg">
-                        {ktAmount}
-                      </Text>
-                    </HStack>
-                  </HStack>
-                  <Box className="pt-2 border-t border-outline-200">
-                    <HStack className="justify-between items-center">
-                      <Text className="text-typography-600">Remaining Points</Text>
-                      <Text className="text-typography-900 font-semibold">
-                        {points - enteredPoints}
-                      </Text>
-                    </HStack>
-                  </Box>
-                </VStack>
-              </Box>
-
-              <Text className="text-typography-500 text-xs text-center">
-                This action cannot be undone
-              </Text>
-            </VStack>
-          </ModalBody>
-          <ModalFooter>
-            <HStack space="md" className="w-full">
-              <Button
-                onPress={handleCancelRedeem}
-                variant="outline"
-                className="flex-1"
-                size="lg"
-              >
-                <ButtonText>Cancel</ButtonText>
-              </Button>
-              <Button
-                onPress={handleConfirmRedeem}
-                className="flex-1"
-                size="lg"
-              >
-                <ButtonText>Confirm</ButtonText>
-              </Button>
-            </HStack>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
       {/* Success Modal */}
-      <Modal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} size="md">
+      {/* <Modal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} size="md">
         <ModalBackdrop />
         <ModalContent>
           <ModalHeader>
@@ -292,7 +209,7 @@ export default function RedeemPointsScreen() {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </ScrollView>
   );
 }
