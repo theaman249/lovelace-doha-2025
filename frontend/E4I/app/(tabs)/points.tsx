@@ -19,6 +19,7 @@ import { Icon, CloseIcon } from '@/components/ui/icon';
 import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Progress, ProgressFilledTrack } from '@/components/ui/progress';
+import { router } from 'expo-router';
 
 type Module = {
   id: number;
@@ -143,7 +144,7 @@ export default function PointsScreen() {
               Points overview
             </Heading>
             
-            <Pressable onPress={() => setShowRedeemModal(true)}>
+            <Pressable onPress={() => router.push('/redeem-points')}>
               <Box className="px-6 py-4 bg-primary-500 rounded-xl">
                 <VStack space="xs" className="items-center">
                   <HStack space="xs" className="items-center">
@@ -332,14 +333,8 @@ export default function PointsScreen() {
                               </HStack>
                             </HStack>
                             <Progress value={unitPercentage} size="sm" className="bg-background-200">
-
-
-
-                          <ProgressFilledTrack className="bg-primary-500" />
-
-
-
-                        </Progress>
+                              <ProgressFilledTrack className="bg-primary-500" />
+                            </Progress>
                           </VStack>
                         </Box>
                       );
@@ -386,6 +381,15 @@ export default function PointsScreen() {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      {/* Redeem Points Navigation */}
+      {/* <Box className="p-4">
+        <Pressable onPress={() => router.push('/redeem-points')}>
+          <Text className="text-primary-600 font-semibold text-center">
+            View and Redeem Points
+          </Text>
+        </Pressable>
+      </Box> */}
     </ScrollView>
   );
 }
