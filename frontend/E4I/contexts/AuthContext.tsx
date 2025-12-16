@@ -26,11 +26,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === '(tabs)';
+    const inCoursePages = segments[0] === 'course-detail' || segments[0] === 'video-player' || segments[0] === 'activity' || segments[0] === 'pdf-viewer';
 
     if (!isAuthenticated && inAuthGroup) {
       // User is not authenticated but trying to access protected routes
       router.replace('/login');
-    } else if (isAuthenticated && !inAuthGroup) {
+    } else if (isAuthenticated && !inAuthGroup && !inCoursePages) {
       // User is authenticated but on auth screen
       router.replace('/(tabs)/courses');
     }

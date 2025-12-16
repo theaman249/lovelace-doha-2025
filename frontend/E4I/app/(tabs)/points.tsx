@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native';
 
 export default function PointsScreen() {
   return (
-    <ScrollView className="flex-1 bg-background-0">
+    <ScrollView className="flex-1 bg-background-0 padding-y-2">
       <Box className="p-6">
         <VStack space="lg">
           <Heading size="2xl" className="text-typography-900">

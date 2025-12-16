@@ -7,6 +7,8 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Input, InputField, InputSlot, InputIcon } from '@/components/ui/input';
 import { Search, BookOpen } from 'lucide-react-native';
+import { router } from 'expo-router';
+import { Pressable } from 'react-native';
 
 // Mock course data
 const courses = [
@@ -16,8 +18,8 @@ const courses = [
     banner: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400',
     units: 3,
     completedUnits: 3,
-    instructor: 'Dr. Gracie Rhino',
-    guideImage: 'https://drive.google.com/uc?export=view&id=1jXP01hETrzMgAGbwAMRoWTqtbERbRWqW',
+    instructor: 'Det. Gracie Lion',
+    guideImage: 'https://drive.google.com/uc?export=view&id=1LnSmzAm6ny1MpIQHY3S8kR25lTpfWMiQ ',
     color: '#dd0979'
   },
   {
@@ -46,8 +48,8 @@ const courses = [
     banner: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400',
     units: 3,
     completedUnits: 1,
-    instructor: 'Sgt. Gracie Lion',
-    guideImage: 'https://drive.google.com/uc?export=view&id=1LnSmzAm6ny1MpIQHY3S8kR25lTpfWMiQ', 
+    instructor: 'Dr. Gracie Rhino',
+    guideImage: 'https://drive.google.com/uc?export=view&id=1jXP01hETrzMgAGbwAMRoWTqtbERbRWqW', 
     color: '#289438'
   },
   {
@@ -80,15 +82,15 @@ export default function CoursesScreen() {
   };
 
   return (
-    <Box className="flex-1 bg-background-0">
+    <Box className="flex-1 bg-background-0 padding-y-2">
       {/* Header */}
       <Box className="px-6 pt-12 pb-4 bg-primary-500">
         <VStack space="md">
-          <Heading size="2xl" className="text-white">
+          <Heading size="2xl" className="text-blue-400">
             My Courses
           </Heading>
           <Text className="text-primary-100">
-            {filteredCourses.length} {filteredCourses.length === 1 ? 'course' : 'courses'} available
+            {filteredCourses.length} {filteredCourses.length === 1 ? 'course' : 'courses'} enrolled
           </Text>
         </VStack>
       </Box>
@@ -115,7 +117,15 @@ export default function CoursesScreen() {
             const status = getStatusBadge(course.completedUnits, course.units);
 
             return (
-              <Box
+              <Pressable
+                  key={course.id}
+                  onPress={() => { console.log('Navigating to course:', course.id); // Debug log
+                    router.push({
+                    pathname: '/course-detail',
+                    params: { courseId: course.id }
+                  })}}
+                > 
+                  <Box
                 key={course.id}
                 className=" rounded-xl overflow-hidden border border-outline-400 shadow-sm"
                 style={{ borderColor: course.color }}
@@ -195,6 +205,8 @@ export default function CoursesScreen() {
                   </VStack>
                 </VStack>
               </Box>
+              </Pressable>
+             
             );
           })}
 
