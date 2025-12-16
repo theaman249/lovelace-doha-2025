@@ -19,7 +19,7 @@ import { Icon, CloseIcon } from '@/components/ui/icon';
 import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Progress, ProgressFilledTrack } from '@/components/ui/progress';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 type Module = {
   id: number;
@@ -117,11 +117,12 @@ const mockModules: Module[] = [
 ];
 
 export default function PointsScreen() {
+  const { totalPoints: totalPointsParam } = useLocalSearchParams();
   const [showRedeemModal, setShowRedeemModal] = useState(false);
   const [selectedModule, setSelectedModule] = useState<Module | null>(null);
   const [redeemAmount, setRedeemAmount] = useState('');
   const [totalPoints, setTotalPoints] = useState(
-    mockModules.reduce((sum, mod) => sum + mod.totalPoints, 0)
+    parseInt(Array.isArray(totalPointsParam) ? totalPointsParam[0] : totalPointsParam) || mockModules.reduce((sum, mod) => sum + mod.totalPoints, 0)
   );
   const router = useRouter();
 
